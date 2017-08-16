@@ -68,10 +68,11 @@ API 提供四个接口，分别是
   ```javascript
   // visitor
   const visitor = {
-    id: 1,
+    id: 1, 
     name: '',
     email: '',
     status: '',
+    enterSiteTime: '',
     referrer: '',
     landingPage: {
       title: '',
@@ -83,26 +84,31 @@ API 提供四个接口，分别是
     },
     currentPageStayTime: '',
     numOfPages: '',
-    ip: '',
-    city: '',
-    state: '',
-    country: '',
-    timezone: '',
-    browser: '',
-    os: '',
-    screenResolution: '',
-    language: '',
-    firstVisitTime: '',
-    enterSiteTime: '',
-    visitTimes: 0,
-    chatTimes: 0,
+    location: {
+      ip: '',
+      city: '',
+      state: '',
+      country: '',
+    },
+    device: {
+      os: '',
+      browser: '',
+      screenResolution: '',
+      language: '',
+      timezone: '',
+    },
+    history: {
+      firstVisitorTime: '',
+      visitTimes: 0,
+      chatTimes: 0,
+    }
+    
     variables: [
       {
         name: '',
         value: '',
       },
     ]
-
   }
 
   // chat
@@ -110,8 +116,10 @@ API 提供四个接口，分别是
     id: 1,  // number
     status: ''  // chatting
     department: '' // string
-    prechat: {},
-    agents: [],
+    prechat: {
+
+    },
+    agents: [], // array<string>
     requestPage: {
       title: '',
       url: '',
@@ -122,14 +130,19 @@ API 提供四个接口，分别是
 
   // agent
   const  agent = {
+    name: '',
+    email: '',
+    isAdmin: false,
 
   }
   ```
 ## Agent Console 页面上的接口
 
-1. 在chats Tab中增加一个tab, 指定具体的地址 
-  ```javascript
+1. 在chats Tab中增加一个tab, 指定具体的地址, 方便用户快速调试程序
 
+  ```javascript
+    // 该接口需要用户在Agent　Cosnole页面上直接调用, 针对开发人员使用
+    LiveChat.extensions.add(name, url);
   ```
 
 # Agent
