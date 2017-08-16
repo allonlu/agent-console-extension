@@ -1,4 +1,4 @@
-#如何使用
+# 如何使用
 
 所有的JS API调用需要在 JS API SDK加载完成以后调用, 即 `LiveChat.onReady` 之后调用
 
