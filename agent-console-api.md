@@ -68,45 +68,45 @@ API 提供四个接口，分别是
   ```javascript
   // visitor
   const visitor = {
-    id: 1, 
-    name: '',
-    email: '',
+    id: 1,    // number
+    name: '', // string
+    email: '',// string
     status: '', // string, in site/prechat/chatting/...
     enterSiteTime: 1502934947,  //number, unix time
     referrer: '', // string, the referrer url
     landingPage: {
-      title: '',
-      url: '',
+      title: '',  // string
+      url: '',    // string
     }
     currentPage: {
-      title: '',
-      url: '',
+      title: '',  // string
+      url: '',    // string
     },
     currentPageStayTime: 20, // number, time of this visitor stay in current page, unit(second)
     numOfPages: 20, // number, the number of this visitor view pages
     location: {
       ip: '',   // string, ip address in dotted form
-      city: '',
-      state: '',
-      country: '',
+      city: '', // string
+      state: '',// string
+      country: '',  // string
     },
     device: {
-      os: '',
-      browser: '',
-      screenResolution: '',
-      language: '',
-      timezone: '',
+      os: '', // string
+      browser: '',  // string
+      screenResolution: '', //string
+      language: '', // string
+      timezone: '', // string
     },
     history: {
-      firstVisitorTime: '',
+      firstVisitorTime: 1502934947, // number, unix time
       visitTimes: 0,  // number, visit times of this visitor
       chatTimes: 0,   // number, chat times of this visitor
     }
     segmentations: [], // array<string>, names of segmentation
     variables: [
       {
-        name: '',
-        value: '',
+        name: '', // string
+        value: '',// string
       },
     ]
   }
@@ -140,8 +140,8 @@ API 提供四个接口，分别是
     }
     agents: [], // array<string>, agent's name
     requestPage: {
-      title: '',
-      url: '',
+      title: '',  // string
+      url: '',    // string
     },
     requestTime: 1502934947,  //number, unix time
     waitingTime: 15,  // number, how long the visitor waiting time, unit(second)
@@ -150,11 +150,12 @@ API 提供四个接口，分别是
 
   // agent
   const  agent = {
-    name: '',
-    email: '',
+    id: 1,    // number
+    name: '', // string
+    email: '',// string
     status: '', // string, online/away
     chats: 3,   // number, ongoing chats
-    isAdmin: false,
+    isAdmin: false, // boolean
   }
   ```
 ## Agent Console 页面上的接口
