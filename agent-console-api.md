@@ -71,9 +71,9 @@ API 提供四个接口，分别是
     id: 1, 
     name: '',
     email: '',
-    status: '',
-    enterSiteTime: '',
-    referrer: '',
+    status: '', // string, in site/prechat/chatting/...
+    enterSiteTime: 1502934947,  //number, unix time
+    referrer: '', // string, the referrer url
     landingPage: {
       title: '',
       url: '',
@@ -82,10 +82,10 @@ API 提供四个接口，分别是
       title: '',
       url: '',
     },
-    currentPageStayTime: '',
-    numOfPages: '',
+    currentPageStayTime: 20, // number, time of this visitor stay in current page, unit(second)
+    numOfPages: 20, // number, the number of this visitor view pages
     location: {
-      ip: '',
+      ip: '',   // string, ip address in dotted form
       city: '',
       state: '',
       country: '',
@@ -99,10 +99,10 @@ API 提供四个接口，分别是
     },
     history: {
       firstVisitorTime: '',
-      visitTimes: 0,
-      chatTimes: 0,
+      visitTimes: 0,  // number, visit times of this visitor
+      chatTimes: 0,   // number, chat times of this visitor
     }
-    
+    segmentations: [], // array<string>, names of segmentation
     variables: [
       {
         name: '',
@@ -111,29 +111,50 @@ API 提供四个接口，分别是
     ]
   }
 
+  // prechat
+  const prechat = {
+    name: '',     // string
+    email: '',    // string 
+    company: '',  // string
+    phone: '',    // string
+    productService: '', // string
+    department: '',     // string
+    customFields: [
+      {
+        name: '',   // string
+        value: '',  // string
+      }
+    ]
+  }
+
   // chat
   const chat = {
     id: 1,  // number
-    status: ''  // chatting
-    department: '' // string
-    prechat: {
-
-    },
-    agents: [], // array<string>
+    visitorId: 1, // number
+    status: ''  // string,  chatting/waiting/transferring/chat ended/voice chatting/vedia chatting
+    department: '' // string, name of department
+    prechat: prechat,
+    rating: {
+      score: 1,   // number, 0 - 5
+      comment: '',  // string,
+    }
+    agents: [], // array<string>, agent's name
     requestPage: {
       title: '',
       url: '',
     },
-    requestTime: '',
-    duration: '',
+    requestTime: 1502934947,  //number, unix time
+    waitingTime: 15,  // number, how long the visitor waiting time, unit(second)
+    duration: 180, //number, how long the chat duration, unit(second)
   }
 
   // agent
   const  agent = {
     name: '',
     email: '',
+    status: '', // string, online/away
+    chats: 3,   // number, ongoing chats
     isAdmin: false,
-
   }
   ```
 ## Agent Console 页面上的接口
@@ -186,20 +207,7 @@ API 提供四个接口，分别是
 3. 设置当前聊天的pre-chat信息
 
   ```javascript
-  const prechat = {
-    name: '',     // string
-    email: '',    // string 
-    company: '',  // string
-    phone: '',    // string
-    productService: '', // string
-    department: '',     // string
-    customFields: [
-      {
-        name: '',   // string
-        value: '',  // string
-      }
-    ]
-  }
+  /** @param {object(prechat)} prechat **/
   LiveChat.set('livechat.chats.current.prechat', prechat);
   ```
 
