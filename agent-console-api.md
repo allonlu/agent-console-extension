@@ -73,7 +73,7 @@ API 提供四个接口，分别是
     id: 1,    // number
     name: '', // string
     email: '',// string
-    status: '', // string, in site/prechat/chatting/...
+    status: '', // string, waiting for chat/chatting/prechat/inviting/offline message/refused by agent/refused by visitor/chat ended/in site/out of site/transferring/system processing
     enterSiteTime: 1502934947,  //number, unix time
     referrer: '', // string, the referrer url
     landingPage: {
@@ -118,7 +118,7 @@ API 提供四个接口，分别是
   const chat = {
     id: 1,  // number
     visitorId: 1, // number
-    status: ''  // string,  chatting/waiting/transferring/chat ended/voice chatting/vedia chatting
+    status: ''  // string,  chatting/waiting/transferring/chat ended/audio chatting/video chatting/inviting
     name: '',     // string
     email: '',    // string 
     company: '',  // string
@@ -152,7 +152,7 @@ API 提供四个接口，分别是
     name: '', // string
     email: '',// string
     status: '', // string, online/away
-    apikey: '', //xxxxx, 需要修改服务器支持 - 
+    apikey: '', // string, 
     chats: 3,   // number, ongoing chats
     isAdmin: false, // boolean
   }
@@ -235,18 +235,11 @@ API 提供四个接口，分别是
   Comm100API.on('agentconsole.chats.selectChange', function(chat) { });
   ```
 
-2. 当前选中的chat的状态变化, 开始聊天/结束聊天
-
-  ```javascript
-  Comm100API.on('agentconsole.chats.currentChat.start', function() { });
-  Comm100API.on('agentconsole.chats.currentChat.end', function() { });
-  ```
-
-3. 当前选中的chat收到访客消息
+2. 当前选中的chat收到访客消息
 
   ```javascript
   /** @param {string} message **/
-  Comm100API.on('agentconsole.chats.currentChat.receive', function(message) { });
+  Comm100API.on('agentconsole.chats.currentChat.receiveVisitorMessage', function(message) { });
   ```
 
 # 动作
