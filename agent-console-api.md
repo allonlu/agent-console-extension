@@ -1,11 +1,13 @@
 # 如何使用
 
-所有的JS API调用需要在 JS API SDK加载完成以后调用, 即 `LiveChat.onReady` 之后调用
+所有的JS API调用需要在 JS API SDK加载完成以后调用, 即 `Comm100API.onReady` 之后调用
 
 ```javascript
-LiveChat.onReady = function () {
+Comm100API.onReady = function () {
   // when this callback is triggered,
   // all APIs are ready to use
+
+  Comm100API.init();
 }
 ```
 
@@ -20,7 +22,7 @@ API 提供四个接口，分别是
    * @param {...any} args - Any specific argument required
    * @return {any} result
    */
-  LiveChat.get('type', ...args);
+  Comm100API.get('type', ...args);
   ```
 
 2. 设置数据的 set 接口
@@ -31,7 +33,7 @@ API 提供四个接口，分别是
    * @param {any} value - Value
    * @param {...any} args - Any specific data needs to be set
    */
-  LiveChat.set('type', value, ...args);
+  Comm100API.set('type', value, ...args);
   ```
 
 3. 注册事件回调函数的 on 接口
@@ -43,10 +45,10 @@ API 提供四个接口，分别是
    * will be triggered after event, which means callback cannot prevent default behavior of event
    * from happening.
    */
-  LiveChat.on('type', function () { });
+  Comm100API.on('type', function () { });
   ```
 
-4. 模拟访客动作的 do 接口
+4. 执行Agent动作的 do 接口
 
   ```javascript
   /**
@@ -54,7 +56,7 @@ API 提供四个接口，分别是
    * @param {...any} args - Any args required
    * @return {Promise<void>} Return promise to indicate if action is done successfully
    */
-  LiveChat.do('type', args);
+  Comm100API.do('type', args);
   ```
 5. 命名规则
 
@@ -111,29 +113,25 @@ API 提供四个接口，分别是
     ]
   }
 
-  // prechat
-  const prechat = {
-    name: '',     // string
-    email: '',    // string 
-    company: '',  // string
-    phone: '',    // string
-    productService: '', // string
-    department: '',     // string
-    customFields: [
-      {
-        name: '',   // string
-        value: '',  // string
-      }
-    ]
-  }
 
   // chat
   const chat = {
     id: 1,  // number
     visitorId: 1, // number
     status: ''  // string,  chatting/waiting/transferring/chat ended/voice chatting/vedia chatting
-    department: '' // string, name of department
-    prechat: prechat,
+    name: '',     // string
+    email: '',    // string 
+    company: '',  // string
+    phone: '',    // string
+    productService: '', // string
+    department: '',     // string, name of department
+    fields: [
+      {
+        name: '',   // string
+        value: '',  // string
+      }
+    ]
+    // prechat: prechat,
     rating: {
       score: 1,   // number, 0 - 5
       comment: '',  // string,
@@ -154,10 +152,15 @@ API 提供四个接口，分别是
     name: '', // string
     email: '',// string
     status: '', // string, online/away
+    apikey: '', //xxxxx, 需要修改服务器支持 - 
     chats: 3,   // number, ongoing chats
     isAdmin: false, // boolean
   }
   ```
+
+  
+
+
 ## Agent Console 页面上的接口
 
 1. 在chats Tab中增加一个tab, 指定具体的地址, 方便用户快速调试程序
@@ -175,16 +178,7 @@ API 提供四个接口，分别是
 
   ```javascript
   /** @type {object(agent)} **/
-  const agent = LiveChat.get('livechat.agent');
-  ```
-
-## 事件
-
-1. 当前agent的状态变化, online/away
-
-  ```javascript
-  /** @param {string} status - new status of agent, online/away **/
-  LiveChat.on('livechat.agent.status.change', function(status) { });
+  const agent = Comm100API.get('agentconsole.currentAgent');
   ```
 
 # Chat
@@ -195,38 +189,41 @@ API 提供四个接口，分别是
 
   ```javascript
   /** @type {object(chat)} **/
-  const chat = LiveChat.get('livechat.chats.current');
+  const chat = Comm100API.get('agentconsole.chats.currentChat');
   ```
 
 2. 获取当前聊天的访客信息
 
   ```javascript
   /** @type {object(visitor)}**/
-  const visitor = LiveChat.get('livechat.chats.current.visitor');
+  const visitor = Comm100API.get('agentconsole.chats.currentChat.visitor');
   ```
 
 3. 设置当前聊天的pre-chat信息
 
   ```javascript
-  /** @param {object(prechat)} prechat **/
-  LiveChat.set('livechat.chats.current.prechat', prechat);
-  ```
+  /** @param {string} name **/
+  Comm100API.set('agentconsole.chats.currentChat.name', name);
 
-4. 设置当前聊天的wrapup信息
+  /** @param {string} email **/
+  Comm100API.set('agentconsole.chats.currentChat.email', email);
 
-  ```javascript
-  const wrapup = {
-    category: '',     // string, category simple mode
-    categoryList: [], // array<string>, category advanced mode
-    customFields: [
-      {
-        name: '',   // string
-        value: '',  // string
-      }
-    ]
-    
-  };
-  LiveChat.set('livechat.chats.current.wrapup', wrapup);
+  /** @param {string} phone **/
+  Comm100API.set('agentconsole.chats.currentChat.phone', phone);
+
+  /** @param {string} productService **/
+  Comm100API.set('agentconsole.chats.currentChat.productService', productService);
+
+  /** @param {string} department **/
+  Comm100API.set('agentconsole.chats.currentChat.department', department);
+
+  /** @param {array<field>} fields **/
+  const fields = [{
+    name: '',
+    value: '',
+  }];
+  Comm100API.set('agentconsole.chats.currentChat.fields', fields)
+
   ```
 
 ## 事件
@@ -235,21 +232,21 @@ API 提供四个接口，分别是
 
   ```javascript
   /** @param {object(chat)} chat **/
-  LiveChat.on('livechat.chats.select', function(chat) { });
+  Comm100API.on('agentconsole.chats.selectChange', function(chat) { });
   ```
 
 2. 当前选中的chat的状态变化, 开始聊天/结束聊天
 
   ```javascript
-  LiveChat.on('livechat.chats.current.start', function() { });
-  LiveChat.on('livechat.chats.current.end', function() { });
+  Comm100API.on('agentconsole.chats.currentChat.start', function() { });
+  Comm100API.on('agentconsole.chats.currentChat.end', function() { });
   ```
 
 3. 当前选中的chat收到访客消息
 
   ```javascript
   /** @param {string} message **/
-  LiveChat.on('livechat.chats.current.receive', function(message) { });
+  Comm100API.on('agentconsole.chats.currentChat.receive', function(message) { });
   ```
 
 # 动作
@@ -258,49 +255,11 @@ API 提供四个接口，分别是
 
   ```javascript
   /** @param {string} message **/
-  LiveChat.do('livechat.chats.current.send', message);
+  Comm100API.do('agentconsole.chats.currentChat.send', message);
   ```
 2. 插入消息到当前chat的输入框中
 
   ```javascript
   /** @param {string} message **/
-  LiveChat.do('livechat.chats.current.input', message)
-  ```
-
-# Tab
-
-## get/set
-
-1. 当前Tab是否被选中
-
-  ```javascript
-  /** @type {boolean} **/
-  const isActive = LiveChat.get('tab.isActive');
-  ```
-
-2. 当前Tab的徽标
-
-  ```javascript
-  /** @type {string} **/
-  LiveChat.get('tab.badge');
-
-  LiveChat.set('tab.badge',  badge);
-  ```
-
-
-## 事件
-
-1. 当前Tab选中与否的状态变化
-
-  ```javascript
-  LiveChat.on('tab.active', function() { });
-  LiveChat.on('tab.inactive', function() { });
-  ```
-
-## 动作
-
-1. 选中当前Tab
-
-  ```javascript
-  LiveChat.do('tab.active')
+  Comm100API.do('agentconsole.chats.currentChat.input', message)
   ```
