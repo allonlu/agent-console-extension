@@ -1,13 +1,13 @@
 # 如何使用
 
-所有的JS API调用需要在 JS API SDK加载完成以后调用, 即 `Comm100API.onReady` 之后调用
+所有的JS API调用需要在 JS API SDK加载完成以后调用, 即 `Comm100AgentConsoleAPI.onReady` 之后调用
 
 ```javascript
-Comm100API.onReady = function () {
+Comm100AgentConsoleAPI.onReady = function () {
   // when this callback is triggered,
   // all APIs are ready to use
 
-  Comm100API.init();
+  Comm100AgentConsoleAPI.init();
 }
 ```
 
@@ -18,45 +18,45 @@ API 提供四个接口，分别是
 
   ```javascript
   /**
-   * @param {string} type - Type of data
+   * @param {string} name - Name of data
    * @param {...any} args - Any specific argument required
    * @return {any} result
    */
-  Comm100API.get('type', ...args);
+  Comm100AgentConsoleAPI.get(name, ...args);
   ```
 
 2. 设置数据的 set 接口
 
   ```javascript
   /**
-   * @param {string} type - Type of data
+   * @param {string} name - Name of data
    * @param {any} value - Value
    * @param {...any} args - Any specific data needs to be set
    */
-  Comm100API.set('type', value, ...args);
+  Comm100AgentConsoleAPI.set(name, value, ...args);
   ```
 
 3. 注册事件回调函数的 on 接口
 
   ```javascript
   /**
-   * @param {string} type - Type of event
+   * @param {string} type - name of event
    * @param {function} callback - Callback function. Params will be provided accordingly. Callback
    * will be triggered after event, which means callback cannot prevent default behavior of event
    * from happening.
    */
-  Comm100API.on('type', function () { });
+  Comm100AgentConsoleAPI.on(name, function () { });
   ```
 
 4. 执行Agent动作的 do 接口
 
   ```javascript
   /**
-   * @param {string} type - Type of action
+   * @param {string} name - name of action
    * @param {...any} args - Any args required
    * @return {Promise<void>} Return promise to indicate if action is done successfully
    */
-  Comm100API.do('type', args);
+  Comm100AgentConsoleAPI.do(name, args);
   ```
 5. 命名规则
 
@@ -104,8 +104,8 @@ API 提供四个接口，分别是
       visitTimes: 0,  // number, visit times of this visitor
       chatTimes: 0,   // number, chat times of this visitor
     }
-    segmentations: [], // array<string>, names of segmentation
-    variables: [
+    visitorSegmentations: [], // array<string>, names of segmentation
+    customVariables: [
       {
         name: '', // string
         value: '',// string
@@ -131,7 +131,6 @@ API 提供四个接口，分别是
         value: '',  // string
       }
     ]
-    // prechat: prechat,
     rating: {
       score: 1,   // number, 0 - 5
       comment: '',  // string,
@@ -141,9 +140,17 @@ API 提供四个接口，分别是
       title: '',  // string
       url: '',    // string
     },
-    requestTime: 1502934947,  //number, unix time
+    requestTime: 1502934947,  // number, unix time
     waitingTime: 15,  // number, how long the visitor waiting time, unit(second)
-    duration: 180, //number, how long the chat duration, unit(second)
+    duration: 180, //number, how long the chat duration, unit(second)、
+    messages: [
+      {
+        sender: '',
+        senderType: '', // string, system/agent/visitor
+        time: 1502934947,
+        content: '',  // string, html 
+      }
+    ]
   }
 
   // agent
@@ -178,7 +185,7 @@ API 提供四个接口，分别是
 
   ```javascript
   /** @type {object(agent)} **/
-  const agent = Comm100API.get('agentconsole.currentAgent');
+  const agent = Comm100AgentConsoleAPI.get('agentconsole.currentAgent');
   ```
 
 # Chat
@@ -189,57 +196,81 @@ API 提供四个接口，分别是
 
   ```javascript
   /** @type {object(chat)} **/
-  const chat = Comm100API.get('agentconsole.chats.currentChat');
+  const chat = Comm100AgentConsoleAPI.get('agentconsole.currentChat');
   ```
 
 2. 获取当前聊天的访客信息
 
   ```javascript
   /** @type {object(visitor)}**/
-  const visitor = Comm100API.get('agentconsole.chats.currentChat.visitor');
+  const visitor = Comm100AgentConsoleAPI.get('agentconsole.currentChat.visitor');
   ```
 
 3. 设置当前聊天的pre-chat信息
 
   ```javascript
   /** @param {string} name **/
-  Comm100API.set('agentconsole.chats.currentChat.name', name);
+  Comm100AgentConsoleAPI.set('agentconsole.currentChat.name', name);
 
   /** @param {string} email **/
-  Comm100API.set('agentconsole.chats.currentChat.email', email);
+  Comm100AgentConsoleAPI.set('agentconsole.currentChat.email', email);
 
   /** @param {string} phone **/
-  Comm100API.set('agentconsole.chats.currentChat.phone', phone);
+  Comm100AgentConsoleAPI.set('agentconsole.currentChat.phone', phone);
 
   /** @param {string} productService **/
-  Comm100API.set('agentconsole.chats.currentChat.productService', productService);
+  Comm100AgentConsoleAPI.set('agentconsole.currentChat.productService', productService);
 
   /** @param {string} department **/
-  Comm100API.set('agentconsole.chats.currentChat.department', department);
+  Comm100AgentConsoleAPI.set('agentconsole.currentChat.department', department);
 
   /** @param {array<field>} fields **/
   const fields = [{
     name: '',
     value: '',
   }];
-  Comm100API.set('agentconsole.chats.currentChat.fields', fields)
+  Comm100AgentConsoleAPI.set('agentconsole.currentChat.fields', fields)
 
   ```
 
 ## 事件
 
-1. 当前选中的chat变化
+1. 聊天开始/结束的事件
 
   ```javascript
   /** @param {object(chat)} chat **/
-  Comm100API.on('agentconsole.chats.selectChange', function(chat) { });
+  Comm100AgentConsoleAPI.on('agentconsole.chats.start', function(chat) {});
+
+  /** @param {object(chat)} chat **/
+  Comm100AgentConsoleAPI.on('agentconsole.chats.end', function(chat) {}); 
   ```
 
-2. 当前选中的chat收到访客消息
+2. 当前聊天的访客状态/属性发生变化
+
+  ```javascript
+  /** @param {object(visitor)} visitor **/
+  Comm100AgentConsoleAPI.on('agentconsole.currentChat.visitor.change', function(visitor) {});
+  ```
+
+3. agent为当前聊天提交了wrapup
+
+  ```javascript
+  /** @param {object(chat)} chat **/
+  Comm100AgentConsoleAPI.on('agentconsole.currentChat.submitWrapup', function(chat) {});
+  ```
+
+4. 当前选中的chat变化
+
+  ```javascript
+  /** @param {object(chat)} chat **/
+  Comm100AgentConsoleAPI.on('agentconsole.currentChat.change', function(chat) { });
+  ```
+
+5. 当前选中的chat收到访客消息
 
   ```javascript
   /** @param {string} message **/
-  Comm100API.on('agentconsole.chats.currentChat.receiveVisitorMessage', function(message) { });
+  Comm100AgentConsoleAPI.on('agentconsole.currentChat.receiveVisitorMessage', function(message) { });
   ```
 
 # 动作
@@ -248,11 +279,11 @@ API 提供四个接口，分别是
 
   ```javascript
   /** @param {string} message **/
-  Comm100API.do('agentconsole.chats.currentChat.send', message);
+  Comm100AgentConsoleAPI.do('agentconsole.currentChat.send', message);
   ```
 2. 插入消息到当前chat的输入框中
 
   ```javascript
   /** @param {string} message **/
-  Comm100API.do('agentconsole.chats.currentChat.input', message)
+  Comm100AgentConsoleAPI.do('agentconsole.currentChat.input', message)
   ```
