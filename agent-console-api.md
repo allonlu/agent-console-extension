@@ -174,7 +174,7 @@ API 提供四个接口，分别是
 
   ```javascript
     // 该接口需要用户在Agent　Cosnole页面上直接调用, 针对开发人员使用
-    LiveChat.extensions.add(name, url);
+    Comm100LiveChat.extensions.add(name, url);
   ```
 
 # Agent
@@ -239,17 +239,17 @@ API 提供四个接口，分别是
 
   ```javascript
   /** @param {object(chat)} chat **/
-  Comm100AgentConsoleAPI.on('agentconsole.chats.start', function(chat) {});
+  Comm100AgentConsoleAPI.on('agentconsole.chats.chatStart', function(chat) {});
 
   /** @param {object(chat)} chat **/
-  Comm100AgentConsoleAPI.on('agentconsole.chats.end', function(chat) {}); 
+  Comm100AgentConsoleAPI.on('agentconsole.chats.chatEnd', function(chat) {}); 
   ```
 
-2. 当前聊天的访客状态/属性发生变化
+2. 当前聊天的访客状态发生变化
 
   ```javascript
   /** @param {object(visitor)} visitor **/
-  Comm100AgentConsoleAPI.on('agentconsole.currentChat.visitor.change', function(visitor) {});
+  Comm100AgentConsoleAPI.on('agentconsole.currentChat.visitor.status.change', function(visitor) {});
   ```
 
 3. agent为当前聊天提交了wrapup
@@ -263,7 +263,7 @@ API 提供四个接口，分别是
 
   ```javascript
   /** @param {object(chat)} chat **/
-  Comm100AgentConsoleAPI.on('agentconsole.currentChat.change', function(chat) { });
+  Comm100AgentConsoleAPI.on('agentconsole.currentChat.selectChange', function(chat) { });
   ```
 
 5. 当前选中的chat收到访客消息
