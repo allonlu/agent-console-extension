@@ -20,9 +20,11 @@ API 提供四个接口，分别是
   /**
    * @param {string} name - Name of data
    * @param {...any} args - Any specific argument required
-   * @return {any} result
+   * @return {Promise<void>} result
    */
-  Comm100AgentConsoleAPI.get(name, ...args);
+  Comm100AgentConsoleAPI.get(name, ...args).then(function(data) {
+
+  });
   ```
 
 2. 设置数据的 set 接口
@@ -185,7 +187,9 @@ API 提供四个接口，分别是
 
   ```javascript
   /** @type {object(agent)} **/
-  const agent = Comm100AgentConsoleAPI.get('agentconsole.currentAgent');
+  Comm100AgentConsoleAPI.get('agentconsole.currentAgent').then(function(agent){
+
+  });
   ```
 
 # Chat
@@ -196,14 +200,18 @@ API 提供四个接口，分别是
 
   ```javascript
   /** @type {object(chat)} **/
-  const chat = Comm100AgentConsoleAPI.get('agentconsole.currentChat');
+  Comm100AgentConsoleAPI.get('agentconsole.currentChat').then(function(chat){
+
+  });
   ```
 
 2. 获取当前聊天的访客信息
 
   ```javascript
   /** @type {object(visitor)}**/
-  const visitor = Comm100AgentConsoleAPI.get('agentconsole.currentChat.visitor');
+  Comm100AgentConsoleAPI.get('agentconsole.currentChat.visitor').then(function(visitor){
+    
+  });
   ```
 
 3. 设置当前聊天的pre-chat信息
