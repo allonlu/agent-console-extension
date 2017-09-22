@@ -132,11 +132,7 @@ API 提供四个接口，分别是
         name: '',   // string
         value: '',  // string
       }
-    ]
-    rating: {
-      score: 1,   // number, 0 - 5
-      comment: '',  // string,
-    }
+    ],
     agents: [], // array<string>, agent's name
     requestPage: {
       title: '',  // string
