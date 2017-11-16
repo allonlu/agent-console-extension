@@ -16,7 +16,7 @@ We provides 4 fundamental APIs to help you interact with the Comm100 Agent Conso
 
 1. GET
 
-To get necessary information, you can use `Comm100AgentConsoleAPI.get`:
+  To get necessary information, you can use `Comm100AgentConsoleAPI.get`:
 
   ```javascript
   /**
@@ -31,7 +31,7 @@ To get necessary information, you can use `Comm100AgentConsoleAPI.get`:
 
 2. SET
 
-To set information, you can use `Comm100AgentConsoleAPI.set`:
+  To set information, you can use `Comm100AgentConsoleAPI.set`:
 
   ```javascript
   /**
@@ -44,7 +44,7 @@ To set information, you can use `Comm100AgentConsoleAPI.set`:
 
 3. ON
 
-For register event callback function, please use `Comm100AgentConsoleAPI.on`:
+  For register event callback function, please use `Comm100AgentConsoleAPI.on`:
 
   ```javascript
   /**
@@ -58,7 +58,7 @@ For register event callback function, please use `Comm100AgentConsoleAPI.on`:
 
 4. DO
 
-To execute the action of the Agent, please use `Comm100AgentConsoleAPI.do`:
+  To execute the action of the Agent, please use `Comm100AgentConsoleAPI.do`:
 
   ```javascript
   /**
@@ -70,7 +70,7 @@ To execute the action of the Agent, please use `Comm100AgentConsoleAPI.do`:
   ```
 5. Naming Rules
 
-GET/SET function are named as namespace. DO/ON function are named as  namespace.verb.
+  GET/SET function are named as namespace. DO/ON function are named as  namespace.verb.
 
 
 # General
