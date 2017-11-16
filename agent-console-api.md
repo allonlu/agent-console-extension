@@ -10,7 +10,7 @@ Comm100AgentConsoleAPI.onReady = function () {
 }
 ```
 
-#What APIs We Provides
+## What APIs We Provides
 
 We provides 4 fundamental APIs to help you interact with the Comm100 Agent Console.
 
